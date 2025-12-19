@@ -1,0 +1,36 @@
+name: Validate Content
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Packs/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Packs/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install demisto-sdk
+        run: pip install demisto-sdk
+        
+      - name: Format content
+        run: demisto-sdk format -i Packs/ -y --no-validate
+        
+      - name: Validate content
+        run: demisto-sdk validate -i Packs/ --skip-pack-dependencies
+        
+      - name: Check for secrets
+        run: demisto-sdk secrets --ignore-entropy
+

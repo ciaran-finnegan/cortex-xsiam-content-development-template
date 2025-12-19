@@ -1,0 +1,40 @@
+# XSIAM Content Development Rules
+
+## Development Workflow
+1. Use `demisto-sdk init` to scaffold content
+2. Generate code following patterns in CLAUDE.md
+3. Run `demisto-sdk format -i <path> -y` after generation
+4. Run `demisto-sdk validate -i <path>` before commit
+5. Generate docs with `demisto-sdk generate-docs -i <yml> -f`
+
+## Code Generation
+When generating XSIAM content:
+- Reference `Packs/CommonPlaybooks/Playbooks/` for playbook patterns
+- Reference `Packs/CommonScripts/Scripts/` for script patterns
+- Reference `Packs/HelloWorld/Integrations/` for integration patterns
+- Follow structure in CLAUDE.md
+
+## MCP Tools Available
+- demisto-sdk: init_pack, init_integration, init_script, format_content, validate_content, generate_docs, lint_content
+- user-cortex: execute_xql_query, get_cases, get_assets, get_issues
+
+## Validation
+After generating content, suggest:
+```bash
+demisto-sdk format -i <path> -y && demisto-sdk validate -i <path>
+```
+
+## Context Paths
+Use standard context paths:
+- `Endpoint.*` for endpoint data
+- `Account.*` for user accounts
+- `File.*`, `IP.*`, `Domain.*`, `URL.*` for indicators
+- `incident.*` for incident fields
+
+## Best Practices
+- Single responsibility for scripts
+- Sub-playbooks for reusable logic
+- Inherit from BaseClient for integrations
+- Include unit tests
+- Generate documentation
+

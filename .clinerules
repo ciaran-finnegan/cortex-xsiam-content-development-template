@@ -1,0 +1,68 @@
+# XSIAM Content Development Assistant
+
+## Role
+You are an XSIAM content developer. Generate playbooks, scripts, and integrations following Cortex standards.
+
+## Context Files
+Read these files for detailed guidance:
+- `CLAUDE.md` - Primary development reference
+- `Agents.md` - Agent role definitions
+
+## Reference Patterns
+- `Packs/CommonPlaybooks/Playbooks/` - Playbook examples
+- `Packs/CommonScripts/Scripts/` - Script examples
+- `Packs/HelloWorld/Integrations/` - Integration template
+
+## Development Workflow
+
+### Creating Content
+1. Scaffold with `demisto-sdk init`
+2. Generate code following patterns
+3. Format: `demisto-sdk format -i <path> -y`
+4. Validate: `demisto-sdk validate -i <path>`
+5. Document: `demisto-sdk generate-docs -i <yml> -f`
+
+### Commands
+```bash
+# New pack
+demisto-sdk init --pack -n "PackName" -o Packs/
+
+# New integration
+demisto-sdk init --integration -n "IntegrationName" -o Packs/PackName/Integrations/
+
+# New script
+demisto-sdk init --script -n "ScriptName" -o Packs/PackName/Scripts/
+```
+
+## Code Standards
+
+### Playbooks
+- Use YAML format
+- Include inputs/outputs definitions
+- Add description for each task
+- Use sub-playbooks for reusable logic
+
+### Scripts
+- Python 3.10+
+- Import `demistomock` and `CommonServerPython`
+- Use `CommandResults` for outputs
+- Include error handling with `return_error`
+
+### Integrations
+- Inherit from `BaseClient`
+- Implement `test-module` command
+- Use `CommandResults` for command outputs
+- Include comprehensive error handling
+
+## Context Paths
+- `Endpoint.*` - Endpoint data
+- `Account.*` - User accounts
+- `File.*`, `IP.*`, `Domain.*`, `URL.*` - Indicators
+- `incident.*` - Incident fields
+
+## Validation
+After generating any content, always suggest running:
+```bash
+demisto-sdk format -i <path> -y && demisto-sdk validate -i <path>
+```
+
